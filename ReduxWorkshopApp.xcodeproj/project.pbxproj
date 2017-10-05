@@ -22,6 +22,7 @@
 		459E1AE91F84CEAC0044D035 /* APIRequests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459E1AE81F84CEAC0044D035 /* APIRequests.swift */; };
 		459E1AEE1F864E960044D035 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 459E1AED1F864E960044D035 /* Main.storyboard */; };
 		459E1AF01F8654EC0044D035 /* CountriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459E1AEF1F8654EC0044D035 /* CountriesViewController.swift */; };
+		459E1AF21F86747A0044D035 /* StatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459E1AF11F86747A0044D035 /* StatesViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -82,6 +83,7 @@
 		459E1AE81F84CEAC0044D035 /* APIRequests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIRequests.swift; sourceTree = "<group>"; };
 		459E1AED1F864E960044D035 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		459E1AEF1F8654EC0044D035 /* CountriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountriesViewController.swift; sourceTree = "<group>"; };
+		459E1AF11F86747A0044D035 /* StatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatesViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 			children = (
 				459E1ABA1F84CD690044D035 /* UI.h */,
 				459E1AEF1F8654EC0044D035 /* CountriesViewController.swift */,
+				459E1AF11F86747A0044D035 /* StatesViewController.swift */,
 				459E1ABB1F84CD690044D035 /* Info.plist */,
 				459E1AED1F864E960044D035 /* Main.storyboard */,
 			);
@@ -393,6 +396,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				459E1AF21F86747A0044D035 /* StatesViewController.swift in Sources */,
 				459E1AF01F8654EC0044D035 /* CountriesViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

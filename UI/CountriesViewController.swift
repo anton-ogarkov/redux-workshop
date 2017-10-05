@@ -14,7 +14,7 @@ public class CountriesViewController: UITableViewController {
         name: String,
         selected: () -> ()
     )
-    
+        
     public var countries: [Country] = [] {
         didSet {
             self.tableView.reloadData()
@@ -22,10 +22,12 @@ public class CountriesViewController: UITableViewController {
     }
     
     public override func viewDidLoad() {
+        super.viewDidLoad()
+
         self.tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
     
-    // MARK: - Table view deletgae
+    // MARK: - Table view delegate
     
     public override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.countries[indexPath.row].selected()

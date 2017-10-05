@@ -9,6 +9,12 @@
 import UIKit
 import UI
 
+func countryDTOCreator (countryName: String) -> (CountriesViewController.Country) {
+    return (name: countryName, selected:{
+        print("Selected country with name: \(countryName)")
+    })
+}
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -20,8 +26,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle(identifier: "private.UI"))
         
+        let countriesViewController: CountriesViewController = mainStoryboard.instantiateViewController(withIdentifier: "CountriesViewController") as! CountriesViewController
+        
+        let countriesNames = ["Ukraine", "Poland", "Belarus"]
+        countriesViewController.countries = countriesNames.map({ countryName in
+            return (name: countryName, selected:{
+                print("Selected country with name: \(countryName)")
+            })
+        })
+        
         self.window = UIWindow(frame: UIScreen.main.bounds)
-        self.window?.rootViewController = UINavigationController(rootViewController: mainStoryboard.instantiateViewController(withIdentifier: "CountriesViewController"))
+        self.window?.rootViewController = UINavigationController(rootViewController: countriesViewController)
         self.window?.makeKeyAndVisible()
         
         return true

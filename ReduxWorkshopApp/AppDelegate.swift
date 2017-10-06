@@ -8,6 +8,7 @@
 
 import UIKit
 import UI
+import Business
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,18 +16,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     let mainStoryboard = UIStoryboard(name: "Main", bundle: Bundle(identifier: "private.UI"))
     
+    let store = Store()
+    
     var navigationController: UINavigationController?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        let countriesViewController = self.createCountriesViewController(countries: self.countriesScreenProps())
+        let countriesViewController = self.createCountriesViewController(countries: self.countriesScreenProps(state: self.store.state))
+        self.store.subscribe { (store) in
+            countriesViewController.countries = self.countriesScreenProps(state: store)
+        }
         
         self.window = UIWindow(frame: UIScreen.main.bounds)
         self.navigationController = UINavigationController(rootViewController: countriesViewController)
         self.window?.rootViewController = self.navigationController
         self.window?.makeKeyAndVisible()
-        
+
+        self.store.bind(worker: constructCountryUpdateWorker())()
+
         return true
     }
 }
@@ -49,11 +57,10 @@ extension AppDelegate {
 
 extension AppDelegate {
     
-    private func countriesScreenProps() -> [CountriesViewController.Country] {
-        let countriesNames = ["Ukraine", "Poland", "Belarus"]
-        return countriesNames.map({ countryName in
-            return (name: countryName, selected:{
-                let statesProps = self.statesScreenProps(countryName: countryName)
+    private func countriesScreenProps(state: StoreState) -> [CountriesViewController.Country] {
+        return state.countries.map({ countryDTO in
+            return (name: countryDTO.name, selected:{
+                let statesProps = self.statesScreenProps(countryName: countryDTO.name)
                 let statesViewController = self.createStatesViewController(props: statesProps)
                 self.navigationController?.pushViewController(statesViewController, animated: true)
             })

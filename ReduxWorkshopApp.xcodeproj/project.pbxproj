@@ -25,6 +25,7 @@
 		459E1AF21F86747A0044D035 /* StatesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459E1AF11F86747A0044D035 /* StatesViewController.swift */; };
 		459E1AF41F879DF00044D035 /* Store.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459E1AF31F879DF00044D035 /* Store.swift */; };
 		459E1AF61F87ACEA0044D035 /* StoreAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459E1AF51F87ACEA0044D035 /* StoreAction.swift */; };
+		459E1AF81F87CD490044D035 /* Future.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459E1AF71F87CD490044D035 /* Future.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +89,7 @@
 		459E1AF11F86747A0044D035 /* StatesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatesViewController.swift; sourceTree = "<group>"; };
 		459E1AF31F879DF00044D035 /* Store.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Store.swift; sourceTree = "<group>"; };
 		459E1AF51F87ACEA0044D035 /* StoreAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreAction.swift; sourceTree = "<group>"; };
+		459E1AF71F87CD490044D035 /* Future.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Future.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -187,6 +189,7 @@
 				459E1AE71F84CE620044D035 /* Network */,
 				459E1ADD1F84CD990044D035 /* Core.h */,
 				459E1ADE1F84CD990044D035 /* Info.plist */,
+				459E1AF71F87CD490044D035 /* Future.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -421,6 +424,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				459E1AF81F87CD490044D035 /* Future.swift in Sources */,
 				459E1AE91F84CEAC0044D035 /* APIRequests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

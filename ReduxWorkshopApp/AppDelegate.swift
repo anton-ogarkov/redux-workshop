@@ -36,15 +36,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         self.store.bind(worker: constructCountryUpdateAC())()
 
-        URLSession.shared.performRequest(countriesRequest()).onComplete { (dataResult) in
-            switch dataResult {
-                case .value(let data):
-                    print("Got result: \(String(describing: String(data: data, encoding: String.Encoding.utf8)))")
-                case .error(let error):
-                    print("Got error: \(error)");
-            }
-        }
-        
         return true
     }
 }

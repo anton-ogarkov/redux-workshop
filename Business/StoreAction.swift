@@ -7,19 +7,23 @@
 //
 
 import Foundation
+import Core
 
 public enum StoreAction {
-    case countriesUpdated([Country])
+    case countriesUpdated([CountryDTO])
 }
 
-public func constructCountryUpdateAC() -> (Store.Dispatch) -> () {
+public func constructCountryUpdateAC() -> (@escaping Store.Dispatch) -> () {
     return { dispatch in
-        let newCountries: [Country] = [
-            Country(code2: "UA", code3: "UA?", name: "Ukraine"),
-            Country(code2: "US", code3: "USA", name: "United States Of America"),
-            Country(code2: "CX", code3: "CXR", name: "Christmas Island"),
-            Country(code2: "CC", code3: "CCK", name: "Cocos (Keeling) Islands")
-        ]
-        dispatch(.countriesUpdated(newCountries))
+        
+        URLSession.shared.performRequest(countriesRequest()).map(Parser.parseCountriesResponse).onComplete { (countriesResult) in
+            switch countriesResult {
+            case .value(let countries):
+                
+                dispatch(.countriesUpdated(countries))
+            case .error(let error):
+                print("Got error: \(error)");
+            }
+        }
     }
 }

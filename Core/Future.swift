@@ -35,6 +35,28 @@ public class Future <Value> {
     }
 }
 
+public extension Future {
+    public func map<NewValue>(_ transform: @escaping (Value) throws -> (NewValue) ) -> Future<NewValue> {
+        let newPromise = Promise<NewValue>()
+        
+        self.onComplete { result in
+            switch result {
+                case .value(let oldValue) :
+                    do {
+                        let newValue = try transform(oldValue)
+                        newPromise.resolve(value: newValue)
+                    } catch {
+                        newPromise.reject(error: error)
+                    }
+                case .error(let error) :
+                    newPromise.reject(error: error)
+            }
+        }
+        
+        return newPromise
+    }
+}
+
 public class Promise<Value> : Future<Value> {
     init(value: Value? = nil) {
         super.init()

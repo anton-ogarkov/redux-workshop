@@ -7,15 +7,10 @@
 //
 
 import Foundation
-
-public struct Country {
-    public let code2: String
-    public let code3: String
-    public let name: String
-}
+import Core
 
 public struct StoreState {
-    public var countries: [Country] = []
+    public var countries: [CountryDTO] = []
 }
 
 
@@ -23,7 +18,6 @@ public struct StoreState {
 public class Store {
     public typealias Subscriber = (StoreState) -> ()
     public typealias Dispatch = (StoreAction) -> ()
-    public typealias ActionCreator = (Dispatch) -> ()
     public typealias BoundActionCreator = () -> ()
 
     private var subscribers = [UUID: Subscriber]()
@@ -48,7 +42,7 @@ public class Store {
         self.subscribers.forEach { $1(self.state) }
     }
     
-    public func bind(worker: @escaping ActionCreator) -> BoundActionCreator {
+    public func bind(worker: @escaping (@escaping Dispatch) -> ()) -> BoundActionCreator {
         return { worker(self.dispatch(action:)) }
     }
 }

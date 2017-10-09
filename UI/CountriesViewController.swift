@@ -17,7 +17,9 @@ public class CountriesViewController: UITableViewController {
         
     public var countries: [Country] = [] {
         didSet {
-            self.tableView.reloadData()
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+            }
         }
     }
     

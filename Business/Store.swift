@@ -23,7 +23,8 @@ public struct StoreState {
 public class Store {
     public typealias Subscriber = (StoreState) -> ()
     public typealias Dispatch = (StoreAction) -> ()
-    public typealias Worker = (Dispatch) -> ()
+    public typealias ActionCreator = (Dispatch) -> ()
+    public typealias BoundActionCreator = () -> ()
 
     private var subscribers = [UUID: Subscriber]()
     
@@ -47,7 +48,7 @@ public class Store {
         self.subscribers.forEach { $1(self.state) }
     }
     
-    public func bind(worker: @escaping Worker) -> () -> () {
+    public func bind(worker: @escaping ActionCreator) -> BoundActionCreator {
         return { worker(self.dispatch(action:)) }
     }
 }

@@ -12,7 +12,7 @@ public enum StoreAction {
     case countriesUpdated([Country])
 }
 
-public func constructCountryUpdateWorker() -> (Store.Dispatch) -> () {
+public func constructCountryUpdateAC() -> (Store.Dispatch) -> () {
     return { dispatch in
         let newCountries: [Country] = [
             Country(code2: "UA", code3: "UA?", name: "Ukraine"),

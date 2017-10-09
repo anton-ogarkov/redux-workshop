@@ -9,6 +9,7 @@
 import UIKit
 import UI
 import Business
+import Core
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -33,8 +34,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = self.navigationController
         self.window?.makeKeyAndVisible()
 
-        self.store.bind(worker: constructCountryUpdateWorker())()
+        self.store.bind(worker: constructCountryUpdateAC())()
 
+        URLSession.shared.performRequest(countriesRequest()).onComplete { (dataResult) in
+            switch dataResult {
+                case .value(let data):
+                    print("Got result: \(String(describing: String(data: data, encoding: String.Encoding.utf8)))")
+                case .error(let error):
+                    print("Got error: \(error)");
+            }
+        }
+        
         return true
     }
 }

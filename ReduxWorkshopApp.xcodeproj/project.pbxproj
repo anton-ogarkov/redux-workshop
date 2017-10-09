@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		45630F6B1F8B9E0E00468ECF /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 45630F6A1F8B9E0E00468ECF /* Parser.swift */; };
 		459E1AA21F84BD9A0044D035 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 459E1AA11F84BD9A0044D035 /* AppDelegate.swift */; };
 		459E1AA91F84BD9A0044D035 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 459E1AA81F84BD9A0044D035 /* Assets.xcassets */; };
 		459E1AAC1F84BD9A0044D035 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 459E1AAA1F84BD9A0044D035 /* LaunchScreen.storyboard */; };
@@ -69,6 +70,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		45630F6A1F8B9E0E00468ECF /* Parser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		459E1A9E1F84BD9A0044D035 /* ReduxWorkshopApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReduxWorkshopApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		459E1AA11F84BD9A0044D035 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		459E1AA81F84BD9A0044D035 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 			isa = PBXGroup;
 			children = (
 				459E1AE81F84CEAC0044D035 /* APIRequests.swift */,
+				45630F6A1F8B9E0E00468ECF /* Parser.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -426,6 +429,7 @@
 			files = (
 				459E1AF81F87CD490044D035 /* Future.swift in Sources */,
 				459E1AE91F84CEAC0044D035 /* APIRequests.swift in Sources */,
+				45630F6B1F8B9E0E00468ECF /* Parser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,9 +16,9 @@ public enum Result<Value> {
 public class Future <Value> {
     public typealias Completion = (Result<Value>) -> ()
     
-    var value: Result<Value>? {
+    fileprivate var result: Result<Value>? {
         didSet {
-            self.value.map(self.reportResult)
+            self.result.map(self.reportResult)
         }
     }
     
@@ -32,5 +32,27 @@ public class Future <Value> {
     
     public func onComplete(completion: @escaping Completion) {
         completions.append(completion)
+    }
+}
+
+public class Promise<Value> : Future<Value> {
+    init(value: Value? = nil) {
+        super.init()
+        
+        self.result = value.map({.value($0)})
+    }
+    
+    init(error: Error) {
+        super.init()
+
+        self.result = .error(error)
+    }
+    
+    func resolve(value: Value) {
+        self.result = .value(value)
+    }
+    
+    func reject(error: Error) {
+        self.result = .error(error)
     }
 }

@@ -12,6 +12,10 @@ import Core
 public struct StoreState {
     public var countries: [CountryDTO.ID: CountryDTO] = [:]
     public var states: [StateDTO.ID : StateDTO] = [:]
+    
+    public func statesByCountry(countryCode: CountryDTO.ID) -> [StateDTO] {
+        return countries[countryCode]?.states.flatMap({states[$0]}) ?? []
+    }
 }
 
 public class Store {

@@ -59,16 +59,16 @@ extension AppDelegate {
 extension AppDelegate {
     
     private func countriesScreenProps(state: StoreState) -> [CountriesViewController.Country] {
-        return state.countries.map({ item in
-            return (name: item.value.name, selected: {
-                let statesProps = self.statesScreenProps(countryDTO: item.value)
+        return state.countries.values.map({ countryDTO in
+            return (name: countryDTO.name, selected: {
+                let statesProps = self.statesScreenProps(countryDTO: countryDTO)
                 let statesViewController = self.createStatesViewController(props: statesProps)
-                statesViewController.props = self.statesScreenProps(countryDTO: item.value)
+                statesViewController.props = self.statesScreenProps(countryDTO: countryDTO)
                     
-                self.store.bind(worker: constructStateUpdateAC(item.value.code3))()
+                self.store.bind(worker: constructStateUpdateAC(countryDTO.code3))()
                 self.store.subscribe(subscriber: { storeState in
-                    let states = storeState.countries[item.value.code3]?.states.flatMap({storeState.states[$0]}) ?? []
-                    statesViewController.props = self.statesScreenProps(countryDTO: item.value, states: states)
+                    let states = storeState.statesByCountry(countryCode: countryDTO.code3)
+                    statesViewController.props = self.statesScreenProps(countryDTO: countryDTO, states: states)
                 })
             
                 self.navigationController?.pushViewController(statesViewController, animated: true)

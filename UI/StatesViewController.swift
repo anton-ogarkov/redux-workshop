@@ -22,9 +22,16 @@ public class StatesViewController: UITableViewController {
     
     public var props: Props = ([], "") {
         didSet {
-            self.tableView.reloadData()
-            self.navigationItem.title = self.props.countryName
+            DispatchQueue.main.async {
+                self.tableView.reloadData()
+                self.view.setNeedsLayout()
+            }
         }
+    }
+    
+    public override func viewWillLayoutSubviews() {
+        super.viewWillLayoutSubviews()
+        self.navigationItem.title = self.props.countryName
     }
     
     override public func viewDidLoad() {

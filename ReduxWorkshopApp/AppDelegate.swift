@@ -59,24 +59,30 @@ extension AppDelegate {
 extension AppDelegate {
     
     private func countriesScreenProps(state: StoreState) -> [CountriesViewController.Country] {
-        return state.countries.map({ countryDTO in
-            return (name: countryDTO.name, selected:{
-                let statesProps = self.statesScreenProps(countryName: countryDTO.name)
+        return state.countries.map({ item in
+            return (name: item.value.name, selected: {
+                let statesProps = self.statesScreenProps(countryDTO: item.value)
                 let statesViewController = self.createStatesViewController(props: statesProps)
+                statesViewController.props = self.statesScreenProps(countryDTO: item.value)
+                    
+                self.store.bind(worker: constructStateUpdateAC(item.value.code3))()
+                self.store.subscribe(subscriber: { storeState in
+                    let states = storeState.countries[item.value.code3]?.states.flatMap({storeState.states[$0]}) ?? []
+                    statesViewController.props = self.statesScreenProps(countryDTO: item.value, states: states)
+                })
+            
                 self.navigationController?.pushViewController(statesViewController, animated: true)
             })
-        })
+        }).sorted(by: {$0.name < $1.name})
     }
     
-    private func statesScreenProps(countryName: String) -> StatesViewController.Props {
-        let statesNames = ["Florida", "Washington DC"]
-        let states = statesNames.map({ (stateName) -> StatesViewController.State in
-            return (name: stateName, selected: {
-                print("Selected state: \(stateName)")
+    private func statesScreenProps(countryDTO: CountryDTO, states: [StateDTO] = []) -> StatesViewController.Props {
+        let stateProps = states.sorted(by: {$0.name < $1.name}).map { item -> StatesViewController.State in
+            return (name: item.name, selected: {
+                print("Selected state: \(item)")
             })
-        })
-        
-        return (states: states, countryName: countryName)
+        }
+        return (states: stateProps, countryName: countryDTO.name)
     }
     
 }

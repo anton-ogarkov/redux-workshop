@@ -10,10 +10,9 @@ import Foundation
 import Core
 
 public struct StoreState {
-    public var countries: [CountryDTO] = []
+    public var countries: [CountryDTO.ID: CountryDTO] = [:]
+    public var states: [StateDTO.ID : StateDTO] = [:]
 }
-
-
 
 public class Store {
     public typealias Subscriber = (StoreState) -> ()
@@ -39,7 +38,7 @@ public class Store {
     
     internal func dispatch(action: StoreAction) {
         mainReducer(currentState: &self.state, action: action)
-        self.subscribers.forEach { $1(self.state) }
+        self.subscribers.forEach { $0.value(self.state) }
     }
     
     public func bind(worker: @escaping (@escaping Dispatch) -> ()) -> BoundActionCreator {
@@ -53,6 +52,13 @@ public class Store {
 func mainReducer(currentState: inout StoreState, action: StoreAction) {
     switch action {
     case .countriesUpdated(let newCountries):
-        currentState.countries = newCountries
+        let zippedCountries = zip(newCountries.map({$0.code3}), newCountries)
+        currentState.countries = Dictionary(uniqueKeysWithValues: zippedCountries)
+    case .statesUpdated(let countryId, let states):
+        let keys = states.map({$0.id})
+        let zippedStates = zip(keys, states)
+        let newStates = Dictionary(uniqueKeysWithValues: zippedStates)
+        currentState.countries[countryId]?.states = keys
+        currentState.states = newStates
     }
 }

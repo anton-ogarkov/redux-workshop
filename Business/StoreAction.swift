@@ -11,6 +11,7 @@ import Core
 
 public enum StoreAction {
     case countriesUpdated([CountryDTO])
+    case statesUpdated(CountryDTO.ID, [StateDTO])
 }
 
 public func constructCountryUpdateAC() -> (@escaping Store.Dispatch) -> () {
@@ -23,5 +24,20 @@ public func constructCountryUpdateAC() -> (@escaping Store.Dispatch) -> () {
                 print("Got error: \(error)");
             }
         }
+    }
+}
+
+public func constructStateUpdateAC(_ countryCode: CountryDTO.ID) -> (@escaping Store.Dispatch) -> () {
+    return { dispatch in
+        Network.dataRequest(Network.statesRequest(forCountryCode: countryCode.rawValue))
+            .chain(Parser.parseStatesResponse)
+            .onComplete(completion: { statesResult in
+            switch statesResult {
+            case .value(let states):
+                dispatch(.statesUpdated(countryCode, states))
+            case .error(let error):
+                print("Got error: \(error)")
+            }
+        })
     }
 }

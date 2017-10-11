@@ -38,24 +38,37 @@ public class Future <Value> {
 }
 
 public extension Future {
-    public func map<NewValue>(_ transform: @escaping (Value) throws -> (NewValue) ) -> Future<NewValue> {
+    public func chain<NewValue>(_ futureBuilder: @escaping (Value) throws -> Future<NewValue> ) -> Future<NewValue> {
         let newPromise = Promise<NewValue>()
         
         self.onComplete { result in
             switch result {
-                case .value(let oldValue) :
-                    do {
-                        let newValue = try transform(oldValue)
-                        newPromise.resolve(value: newValue)
-                    } catch {
-                        newPromise.reject(error: error)
-                    }
-                case .error(let error) :
+            case .value(let oldValue) :
+                do {
+                    let newFuture = try futureBuilder(oldValue)
+                    newFuture.onComplete(completion: { (newResult) in
+                        switch newResult {
+                        case .value(let newValue):
+                            newPromise.resolve(value: newValue)
+                        case .error(let error):
+                            newPromise.reject(error: error)
+                        }
+                    })
+                } catch {
                     newPromise.reject(error: error)
+                }
+            case .error(let error) :
+                newPromise.reject(error: error)
             }
         }
-        
+
         return newPromise
+    }
+    
+    public func map<NewValue>(_ transform: @escaping (Value) throws -> (NewValue) ) -> Future<NewValue> {
+        return self.chain {
+            Promise(value: try transform($0))
+        }
     }
 }
 

@@ -8,40 +8,50 @@ public enum ParserError: Error {
 }
 
 public struct Parser {
-    public static func json(_ data: Data) throws -> Any {
+    static func json(_ data: Data) throws -> Any {
         return try JSONSerialization.jsonObject(with: data, options: [])
     }
     
-    public static func dictionary(_ any: Any) throws -> [String: Any] {
+    static func dictionary(_ any: Any) throws -> [String: Any] {
         guard let dict = any as? [String: Any] else {
             throw ParserError.badDictionry(any)
         }
         return dict
     }
     
-    public static func array(_ any: Any) throws -> [Any] {
+    static func array(_ any: Any) throws -> [Any] {
         guard let array = any as? [Any] else {
             throw ParserError.badArray(any)
         }
         return array
     }
     
-    public static func string(_ any: Any) throws -> String {
+    static func string(_ any: Any) throws -> String {
         guard let str = any as? String else {
             throw ParserError.badString(any)
         }
         return str
     }
     
-    public static func key(_ key: String, _ dictionary: [String: Any]) throws -> Any {
+    static func key(_ key: String, _ dictionary: [String: Any]) throws -> Any {
         guard let val = dictionary[key] else {
             throw ParserError.badKey(key: key, dict: dictionary)
         }
         return val
     }
     
-    public static func parseCountriesResponse(_ data: Data) throws -> [CountryDTO] {
-        return try array(key("result", dictionary(key("RestResponse", dictionary(json(data)))))).map(parseCountryDTO)
+    static func key(_ key: String) -> ([String: Any]) throws -> Any {
+        return { dictionary in
+            return try self.key(key, dictionary)
+        }
+    }
+    
+    public static func parseCountriesResponse(_ data: Data) -> Future<[CountryDTO]> {
+        return Promise(value: data)
+            .map(json).map(dictionary)
+            .map(key("RestResponse")).map(dictionary)
+            .map(key("result")).map(array)
+            .map { try $0.map(parseCountryDTO) }
     }
     
     static func parseCountryDTO(_ any: Any) throws -> CountryDTO {

@@ -8,18 +8,10 @@
 
 import Foundation
 
-public func countriesRequest() -> URLRequest {
-    return URLRequest(url: URL(string: "http://services.groupkt.com/country/get/all")!)
-}
-
-public func statesRequest(forCountryCode countryCode: String) -> URLRequest {
-    return URLRequest(url: URL(string: "http://services.groupkt.com/state/get/\(countryCode)/all")!)
-}
-
-public extension URLSession {
-    public func performRequest(_ request: URLRequest) -> Future<Data> {
+public enum Network {
+    public static func dataRequest(_ request: URLRequest) -> Future<Data> {
         let promise = Promise<Data>()
-        self.dataTask(with: request) { (data, response, error) in
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
             if let data = data {
                 promise.resolve(value: data)
             } else if let error = error {
@@ -27,7 +19,16 @@ public extension URLSession {
             } else {
                 fatalError("Inconsistency - neither error, nor data was received. Got response: \(String(describing: response))")
             }
-        }.resume()
+            }.resume()
         return promise
     }
+
+    public static func countriesRequest() -> URLRequest {
+        return URLRequest(url: URL(string: "http://services.groupkt.com/country/get/all")!)
+    }
+    
+    public static func statesRequest(forCountryCode countryCode: String) -> URLRequest {
+        return URLRequest(url: URL(string: "http://services.groupkt.com/state/get/\(countryCode)/all")!)
+    }
+    
 }

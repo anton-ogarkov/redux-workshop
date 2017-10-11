@@ -15,11 +15,9 @@ public enum StoreAction {
 
 public func constructCountryUpdateAC() -> (@escaping Store.Dispatch) -> () {
     return { dispatch in
-        
-        URLSession.shared.performRequest(countriesRequest()).map(Parser.parseCountriesResponse).onComplete { (countriesResult) in
+        Network.dataRequest(Network.countriesRequest()).chain(Parser.parseCountriesResponse).onComplete { (countriesResult) in
             switch countriesResult {
             case .value(let countries):
-                
                 dispatch(.countriesUpdated(countries))
             case .error(let error):
                 print("Got error: \(error)");

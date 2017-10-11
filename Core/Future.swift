@@ -32,6 +32,8 @@ public class Future <Value> {
     
     public func onComplete(completion: @escaping Completion) {
         completions.append(completion)
+        
+        self.result.map(completion)
     }
 }
 
